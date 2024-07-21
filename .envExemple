@@ -1,0 +1,9 @@
+PORT = 8000
+
+JWT_SECRET = G2gmKWczR1A2KpAoFexueP16u
+
+DB_DRIVER   = mysql
+DB_HOST     = localhost
+DB_USERNAME = root
+DB_PASSWORD = your_password
+DB_DATABASE = your_database_name
