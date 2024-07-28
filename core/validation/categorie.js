@@ -1,0 +1,52 @@
+const { checkSchema, validationResult } = require('express-validator');
+
+exports.creation = [
+    checkSchema({
+        intitule: {
+            notEmpty: {
+                errorMessage: 'Ce champ est réquis'
+            },
+            isString: {
+                errorMessage: "Le titre doit être une chaine de caractères"
+            },
+            isLength: {
+                options: {max: 255},
+                errorMessage: 'Le nombre de caractères maximum est 255'
+            }
+        }
+    }, ['body']),
+    (req, res, next) => {
+
+        let erreurs = validationResult(req);
+
+        if(!erreurs.isEmpty()) return res.status(401).json(erreurs.mapped());
+
+        next();
+    }
+]
+
+exports.modifier = [
+    checkSchema({
+        intitule: {
+            optional: true,
+            notEmpty: {
+                errorMessage: 'Ce champ est réquis'
+            },
+            isString: {
+                errorMessage: "Le titre doit être une chaine de caractères"
+            },
+            isLength: {
+                options: {max: 255},
+                errorMessage: 'Le nombre de caractères maximum est 255'
+            }
+        }
+    }, ['body']),
+    (req, res, next) => {
+
+        let erreurs = validationResult(req);
+
+        if(!erreurs.isEmpty()) return res.status(401).json(erreurs.mapped());
+
+        next();
+    }
+]

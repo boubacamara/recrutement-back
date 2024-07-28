@@ -1,5 +1,4 @@
 const { checkSchema, validationResult } = require('express-validator');
-const { Utilisateur } = require('../../models');
 
 exports.creation = [
     checkSchema({

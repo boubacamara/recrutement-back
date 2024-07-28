@@ -17,10 +17,6 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false
       },
-      entreprise: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
       lieu: {
         type: Sequelize.STRING,
         allowNull: false

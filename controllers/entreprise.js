@@ -14,14 +14,14 @@ exports.creation = async (req, res) => {
         
         if(entreprise?.recruteurId === recruteurId) return res.status(409).json({msg: `Vous ne pouvez pas créer plus d'entreprises`})
         
-        let nEntreprise = await Entreprise.create({
+        entreprise = await Entreprise.create({
             nom,
             ninea,
             adresse,
             telephone,
             recruteurId
         })
-        return res.json(nEntreprise)
+
         if(!entreprise) return res.status(400).json({msg: 'Les informations saisies sont incorrectes, veuillez réessayer'});
 
         return res.status(201).json({msg: `Entreprise, ${entreprise.nom} crée avec succès`});

@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const sel = require('../core/shared/sel');
 const jwt = require('../core/shared/token');
-const { Utilisateur } = require('../models');
+const { Utilisateur, Profile } = require('../models');
 
 exports.enregistrer = async (req, res) => {
 
@@ -51,15 +51,17 @@ exports.connexion = async (req, res) => {
 exports.recuperer = async (req, res) => {
 
     let id = parseInt(req.utilisateurId);
-
+    
     try {
-        let {motDePasse, updatedAt, profile, ...leRest} = (await Utilisateur.findByPk(id, {
-            include: 'profile'
+        let utilisateur = (await Utilisateur.findByPk(id, {
+            attributes: { exclude: ['motDePasse', 'updatedAt']},
+            include: {
+                model: Profile,
+                as: 'profile',
+                attributes: {exclude: ['createdAt', 'updatedAt']}
+            }
         })).toJSON();
 
-        let {createdAt: pCreatedat, updatedAt: pUdatedAt, ...restProfile} = profile;
-
-        let utilisateur = await {...leRest, profile: restProfile};
 
         !utilisateur && res.status(401).json('Aucun utilisateur trouvé')
 

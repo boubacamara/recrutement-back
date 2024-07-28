@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 
       let entreprise = await this.findOne({where: {id: entrepriseId}})
 
-      if(!entreprise) throw Error('Aucun entreprise trouvé avec cet identifiant');
+      if(!entreprise) throw Error('Aucune entreprise trouvée avec cet identifiant');
     
       if(entreprise?.recruteurId !== recruteurId) throw Error('Accès non autorisé');
 

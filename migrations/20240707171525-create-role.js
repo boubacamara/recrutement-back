@@ -10,9 +10,8 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       intitule: {
-        type: Sequelize.ENUM,
+        type: Sequelize.STRING,
         allowNull: false,
-        values: ['admin', 'recruteur', 'candidat'],
       },
       createdAt: {
         allowNull: false,
