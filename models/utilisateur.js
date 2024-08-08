@@ -89,10 +89,6 @@ module.exports = (sequelize, DataTypes) => {
         key: 'roleId'
       }
     },
-    pseudo: {
-      type: DataTypes.STRING(70),
-      allowNull: false,
-    },
     email: {
       type: DataTypes.STRING(70),
       allowNull: false,

@@ -41,10 +41,6 @@ module.exports = (sequelize, DataTypes) => {
       });
 
       if(!profile) throw Error(`Votre profile n'a pas puis être modifié`);
-
-      let utilisateur = await profile.getUtilisateur();
-  
-      modifierPseudo(utilisateur, pseudo);
     }
     
     static associate(models) {
@@ -68,11 +64,3 @@ module.exports = (sequelize, DataTypes) => {
   });
   return Profile;
 };
-
-async function modifierPseudo(utilisateur, pseudo) {
-
-  utilisateur.pseudo = pseudo;
-  let utl = await utilisateur.save();
-
-  if(!utl) throw Error(`Votre pseudo n'a pas puis être modifié`);
-}

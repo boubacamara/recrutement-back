@@ -7,7 +7,7 @@ module.exports = {
         let autorization = req.headers.Authorization || req.headers.authorization;
         if(!autorization) return res.status(401).json({msg: 'Demande non autorisée'});
     
-        let token = autorization.split(' ')[1];
+        let token = autorization?.split(' ')[1];
         if(token === 'null') return res.status(401).json({msg: 'Demande non autorisée'});
        
         let utilisateur = jwt.compare(token);

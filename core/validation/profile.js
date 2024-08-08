@@ -71,19 +71,6 @@ exports.creation = [
 
 exports.modifier = [
     checkSchema({
-        pseudo: {
-            optional:true,
-            notEmpty: {
-                errorMessage: "Ce champ est réquis"
-            },
-            isAlphanumeric: {
-                errorMessage: "Ce champ n'accepte que les caractères alphanumérique"
-            },
-            isLength: {
-                options: {min: 2, max: 70},
-                errorMessage: 'Le nombre des caractères doit être compris entre 2-70 caractères'
-            }
-        },
         nom: {
             optional: true,
             notEmpty: {

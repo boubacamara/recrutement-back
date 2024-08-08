@@ -22,18 +22,7 @@ const creation = [
                 }
             }  
         },
-        pseudo: {
-            notEmpty: {
-                errorMessage: "Ce champ est réquis"
-            },
-            isAlphanumeric: {
-                errorMessage: "Ce champ n'accepte que les caractères alphanumérique"
-            },
-            isLength: {
-                options: {min: 2, max: 70},
-                errorMessage: 'Le nombre des caractères doit être compris entre 2-70 caractères'
-            }
-        },motDePasse: {
+        motDePasse: {
             notEmpty: {
                 errorMessage: "Ce champ est réquis"
             },

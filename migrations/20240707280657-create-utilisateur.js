@@ -17,10 +17,6 @@ module.exports = {
           key: 'id'
         },
         defaultValue: 3      },
-      pseudo: {
-        type: Sequelize.STRING(70),
-        allowNull: false
-      },
       email: {
         type: Sequelize.STRING(70),
         allowNull: false

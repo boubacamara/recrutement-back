@@ -5,13 +5,13 @@ const { Utilisateur, Profile } = require('../models');
 
 exports.enregistrer = async (req, res) => {
 
-    let { email, pseudo, motDePasse } = req.body;
+    let { email, motDePasse } = req.body;
     let monJeton = sel.generer();
     let roleId = req.body?.roleId ?? 3;
 
     try {
-        
-        return creationCompte(email, pseudo, motDePasse, monJeton, roleId, res);
+
+        return creationCompte(email, motDePasse, monJeton, roleId, res);
 
     } catch (error) {
         return res.status(500).json({msg: "Le serveur n'a pas puis répondre"});
@@ -20,13 +20,13 @@ exports.enregistrer = async (req, res) => {
 
 exports.enregistrerRecruteur = async (req, res) => {
 
-    let { email, pseudo, motDePasse } = req.body;
+    let { email, motDePasse } = req.body;
     let monJeton = sel.generer();
     let roleId = 2;
 
     try {
         
-        return creationCompte(email, pseudo, motDePasse, monJeton, roleId, res);
+        return creationCompte(email, motDePasse, monJeton, roleId, res);
 
     } catch (error) {
         return res.status(500).json({msg: "Le serveur n'a pas puis répondre"});
@@ -123,13 +123,12 @@ exports.supprimer = async (req, res) => {
     }
 }
 
-async function creationCompte(email, pseudo, motDePasse, monJeton, roleId, res) {
+async function creationCompte(email, motDePasse, monJeton, roleId, res) {
     let bcryptSel = await bcrypt.genSalt();
     motDePasse = await bcrypt.hash(motDePasse, bcryptSel);
     
     candidat = await Utilisateur.create({
         email,
-        pseudo,
         motDePasse,
         monJeton,
         roleId
@@ -139,5 +138,5 @@ async function creationCompte(email, pseudo, motDePasse, monJeton, roleId, res) 
 
     let token = jwt.creation(candidat.id);
 
-    token && res.status(201).json({token})
+    return token && res.status(201).json({token})
 }
