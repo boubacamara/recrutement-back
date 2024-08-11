@@ -1,4 +1,5 @@
 const { checkSchema, validationResult } = require('express-validator');
+const { Role } = require('../../models');
 
 exports.creation = [
     checkSchema({
@@ -6,12 +7,21 @@ exports.creation = [
             notEmpty: {
                 errorMessage: 'Ce champ est réquis'
             },
+            custom: {
+                options: async (intitule) => {
+                    return await Role.findOne({ attributes: ['intitule'],
+                            where: {intitule}
+                        }).then((intituleExist) => {
+                            return intituleExist && Promise.reject('Ce role existe déja');
+                        })
+                }
+            },
             isString: {
                 errorMessage: "Le titre doit être une chaine de caractères"
             },
             isLength: {
-                options: {max: 255},
-                errorMessage: 'Le nombre de caractères maximum est 255'
+                options: {min: 2, max: 255},
+                errorMessage: 'Le nombre de caractères doit être comprise de 2 - 255'
             }
         }
     }, ['body']),
