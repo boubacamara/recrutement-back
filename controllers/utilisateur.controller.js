@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const sel = require('../core/shared/sel');
 const jwt = require('../core/shared/token');
-const { Utilisateur, Profile } = require('../models');
+const { Utilisateur, Profile, Role } = require('../models');
 
 exports.enregistrer = async (req, res) => {
 
@@ -50,7 +50,7 @@ exports.connexion = async (req, res) => {
 
 exports.recuperer = async (req, res) => {
 
-    let id = parseInt(req.utilisateurId);
+    let id = parseInt(req.query.id) || parseInt(req.utilisateurId);
     
     try {
         let utilisateur = (await Utilisateur.findByPk(id, {
@@ -75,7 +75,20 @@ exports.tousLesUtilisateurs = async (req, res) => {
 
     try {
         let utilisateurs = await Utilisateur.findAll({
-            include: ['profile']
+            attributes: {exclude: ['motDePasse', 'updatedAt']},
+            include: [
+                {
+                model: Profile,
+                as: 'profile',
+                attributes: {
+                    exclude: ['updatedAt']
+                }
+            },{
+                model: Role,
+                as: 'role',
+                attributes: {exclude: ['createdAt', 'updatedAt']}
+            }
+        ]
         });
 
         !utilisateurs && res.status(401).json('Aucun utilisateur trouvé')

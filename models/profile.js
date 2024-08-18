@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
 
     static async modifierProfile(data, utilisateurId) {
 
-      let { nom, prenom, dateDeNaissance, telephone, ville, pseudo } = data;
+      let { nom, prenom, dateDeNaissance, telephone, ville } = data;
 
       let profile = await this.findOne({
         where: { utilisateurId},
