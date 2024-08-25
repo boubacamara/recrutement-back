@@ -115,7 +115,7 @@ exports.emailModifier = async (req, res) => {
 
 exports.supprimer = async (req, res) => {
 
-    let id = parseInt(req.utilisateurId);
+    let id = parseInt(req.query.id) || parseInt(req.utilisateurId);
     let monJeton = req.params.jeton;
 
     try {

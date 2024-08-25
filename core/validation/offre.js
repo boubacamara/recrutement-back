@@ -64,16 +64,6 @@ exports.creation = [
                 errorMessage: "Les compétences doivent être une chaîne de caractères",
             },
         },
-        experienceRequise: {
-            optional: true,
-            isString: {
-                errorMessage: "L'expérience requise doit être une chaîne de caractères"
-            },
-            isLength: {
-                options: { max: 255 },
-                errorMessage: "L'expérience requise doit avoir au maximum 255 caractères"
-            }
-        },
         educationRequise: {
             optional: true,
             isString: {
@@ -180,16 +170,6 @@ exports.modifier = [
             isString: {
                 errorMessage: "Les compétences doivent être une chaîne de caractères",
             },
-        },
-        experienceRequise: {
-            optional: true,
-            isString: {
-                errorMessage: "L'expérience requise doit être une chaîne de caractères"
-            },
-            isLength: {
-                options: { max: 255 },
-                errorMessage: "L'expérience requise doit avoir au maximum 255 caractères"
-            }
         },
         educationRequise: {
             optional: true,

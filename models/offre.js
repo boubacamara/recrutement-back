@@ -21,7 +21,6 @@ module.exports = (sequelize, DataTypes) => {
     salaire: DataTypes.DECIMAL,
     exigences: DataTypes.TEXT,
     competences: DataTypes.TEXT,
-    experienceRequise: DataTypes.STRING,
     educationRequise: DataTypes.STRING,
     categorieId: DataTypes.INTEGER,
     recruteurId: DataTypes.INTEGER,

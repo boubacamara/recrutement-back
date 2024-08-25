@@ -49,7 +49,8 @@ exports.recupererToutes = async (req, res) => {
 
 exports.modifier = async (req, res) => {
 
-    let id = parseInt(req.params.id);
+    let id = parseInt(req.query) || parseInt(req.params.id);
+    
     let { intitule } = req.body;
 
     try {

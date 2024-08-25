@@ -38,10 +38,6 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: true
       },
-      experienceRequise: {
-        type: Sequelize.STRING,
-        allowNull: true
-      },
       educationRequise: {
         type: Sequelize.STRING,
         allowNull: true
