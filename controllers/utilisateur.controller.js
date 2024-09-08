@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const sel = require('../core/shared/sel');
 const jwt = require('../core/shared/token');
-const { Utilisateur, Profile, Role } = require('../models');
+const { Utilisateur, Profile, Role, Entreprise } = require('../models');
 
 exports.enregistrer = async (req, res) => {
 
@@ -55,11 +55,23 @@ exports.recuperer = async (req, res) => {
     try {
         let utilisateur = (await Utilisateur.findByPk(id, {
             attributes: { exclude: ['motDePasse', 'updatedAt']},
-            include: {
-                model: Profile,
-                as: 'profile',
-                attributes: {exclude: ['createdAt', 'updatedAt']}
-            }
+            include: [
+                {
+                    model: Profile,
+                    as: 'profile',
+                    attributes: {exclude: ['createdAt', 'updatedAt']}
+                },
+                {
+                    model: Role,
+                    as: 'role',
+                    attributes: {exclude: ['createdAt', 'updatedAt']}
+                },
+                {
+                    model: Entreprise,
+                    as: 'entreprise',
+                    attributes: {exclude: ['updatedAt']}
+                }
+            ]
         })).toJSON();
 
 

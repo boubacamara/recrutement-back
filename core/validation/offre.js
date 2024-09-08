@@ -84,6 +84,7 @@ exports.creation = [
             toInt: true
         },
         public: {
+            optional: true,
             notEmpty: {
                 errorMessage: 'Ce champ est réquis'
             },
@@ -182,6 +183,7 @@ exports.modifier = [
             }
         },
         public: {
+            optional: true,
             notEmpty: {
                 errorMessage: 'Ce champ est réquis'
             },

@@ -57,6 +57,47 @@ exports.recupererToutes = async(req, res) => {
                         exclude: ['dateDeNaissance', 'utilisateurId', 'ville', 'createdAt', 'updatedAt']
                     }
                 }
+            },
+            where: {
+                publier: true
+            }            
+        });
+
+        if(!offres) return res.status(401).json({msg: `Aucune offre trouvée avec cet identifiant`});
+
+        res.status(200).json(offres);
+    } catch (erreurs) {
+        return res.status(500).json({msg: `Le serveur n'a pas puis répondre`});
+    }
+
+}
+
+exports.recuperersRecruteur = async(req, res) => {
+
+    const recruteurId = parseInt(req.utilisateurId);
+
+    try {
+        
+        let offres = await Offre.findAll({
+            attributes: {
+                exclude: ['updatedAt']
+            },
+            include: {
+                model: Utilisateur,
+                as: 'recruteur',
+                attributes: {
+                    exclude: ['motDePasse', 'createdAt', 'updatedAt', 'monJeton']
+                },
+                include: {
+                    model: Profile,
+                    as: 'profile',
+                    attributes: {
+                        exclude: ['dateDeNaissance', 'utilisateurId', 'ville', 'createdAt', 'updatedAt']
+                    }
+                }
+            },
+            where: {
+                recruteurId
             }
             
         });
@@ -69,7 +110,6 @@ exports.recupererToutes = async(req, res) => {
     }
 
 }
-
 exports.enregistrer = async (req, res) => {
 
     let offreDonnees = req.body;
@@ -106,7 +146,7 @@ exports.modifier = async (req, res) => {
 
         if(!offre) return res.status(400).json({msg: `Les modifications n'ont pas puis être effectué`});
 
-        res.status(201).json({msg: `L'entreprise a été modifier avec succès`});
+        res.status(201).json({msg: `L'offre a été modifier avec succès`});
 
     } catch (erreurs) {
         return res.status(500).json({msg: `Le serveur n'a pas puis répondre`});
