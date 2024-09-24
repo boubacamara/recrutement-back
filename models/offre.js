@@ -7,6 +7,11 @@ module.exports = (sequelize, DataTypes) => {
     
     static associate(models) {
       models.Offre.belongsTo(models.Utilisateur, {foreignKey: 'recruteurId', as: 'recruteur',});
+      models.Offre.belongsToMany(models.Utilisateur, {
+        through: models.UtilisateurOffres,
+        foreignKey: 'offreId',
+        as: 'candidat'
+      })
       models.Offre.belongsTo(models.Categorie, {foreignKey: 'categorieId', as: 'categorie'});
     }
   }

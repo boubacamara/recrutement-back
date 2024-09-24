@@ -32,7 +32,7 @@ exports.creation = [
                 errorMessage: "Ce champ est réquis"
             },
             isDate: {
-                format: "YYYY-MM-DD",
+                format: "DD-MM-YYYY",
                 errorMessage: "Ce champ doit être de type date"
             },
             toDate: true

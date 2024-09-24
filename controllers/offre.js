@@ -1,4 +1,4 @@
-const { Offre, Utilisateur, Profile } = require('../models');
+const { Offre, Utilisateur, Profile, Entreprise } = require('../models');
 
 exports.recuperer = async(req, res) => {
 
@@ -10,20 +10,36 @@ exports.recuperer = async(req, res) => {
             attributes: {
                 exclude: ['updatedAt']
             },
-            include: {
-                model: Utilisateur,
-                as: 'recruteur',
-                attributes: {
-                    exclude: ['motDePasse', 'createdAt', 'updatedAt', 'monJeton']
-                },
-                include: {
-                    model: Profile,
-                    as: 'profile',
+            include: [
+                {
+                    model: Utilisateur,
+                    as: 'recruteur',
                     attributes: {
-                        exclude: ['dateDeNaissance', 'utilisateurId', 'ville', 'createdAt', 'updatedAt']
+                        exclude: ['motDePasse', 'createdAt', 'updatedAt', 'monJeton']
+                    },
+                    include: {
+                        model: Profile,
+                        as: 'profile',
+                        attributes: {
+                            exclude: ['dateDeNaissance', 'utilisateurId', 'ville', 'createdAt', 'updatedAt']
+                        }
+                    }
+                },
+                {
+                    model: Utilisateur,
+                    as: 'candidat',
+                    attributes: {
+                        exclude: ['roleId', 'motDePasse', 'createdAt', 'updatedAt', 'UtilisateurOffres']
+                    },
+                    include: {
+                        model: Profile,
+                        as: 'profile',
+                        attributes: {
+                            exclude: ['dateDeNaissance', 'utilisateurId', 'ville', 'createdAt', 'updatedAt']
+                        }
                     }
                 }
-            }
+            ]
             
         });
 
@@ -37,7 +53,7 @@ exports.recuperer = async(req, res) => {
 }
 
 exports.recupererToutes = async(req, res) => {
-
+ 
     try {
         
         let offres = await Offre.findAll({
@@ -56,6 +72,10 @@ exports.recupererToutes = async(req, res) => {
                     attributes: {
                         exclude: ['dateDeNaissance', 'utilisateurId', 'ville', 'createdAt', 'updatedAt']
                     }
+                },
+                include: {
+                    model: Entreprise,
+                    as: 'entreprise'
                 }
             },
             where: {
@@ -65,7 +85,7 @@ exports.recupererToutes = async(req, res) => {
 
         if(!offres) return res.status(401).json({msg: `Aucune offre trouvée avec cet identifiant`});
 
-        res.status(200).json(offres);
+        return res.status(200).json(offres);
     } catch (erreurs) {
         return res.status(500).json({msg: `Le serveur n'a pas puis répondre`});
     }
@@ -82,20 +102,36 @@ exports.recuperersRecruteur = async(req, res) => {
             attributes: {
                 exclude: ['updatedAt']
             },
-            include: {
-                model: Utilisateur,
-                as: 'recruteur',
-                attributes: {
-                    exclude: ['motDePasse', 'createdAt', 'updatedAt', 'monJeton']
-                },
-                include: {
-                    model: Profile,
-                    as: 'profile',
+            include: [
+                {
+                    model: Utilisateur,
+                    as: 'recruteur',
                     attributes: {
-                        exclude: ['dateDeNaissance', 'utilisateurId', 'ville', 'createdAt', 'updatedAt']
+                        exclude: ['motDePasse', 'createdAt', 'updatedAt', 'monJeton']
+                    },
+                    include: {
+                        model: Profile,
+                        as: 'profile',
+                        attributes: {
+                            exclude: ['dateDeNaissance', 'utilisateurId', 'ville', 'createdAt', 'updatedAt']
+                        }
+                    }
+                },
+                {
+                    model: Utilisateur,
+                    as: 'candidat',
+                    attributes: {
+                        exclude: ['roleId', 'motDePasse', 'createdAt', 'updatedAt', 'UtilisateurOffres']
+                    },
+                    include: {
+                        model: Profile,
+                        as: 'profile',
+                        attributes: {
+                            exclude: ['dateDeNaissance', 'utilisateurId', 'ville', 'createdAt', 'updatedAt']
+                        }
                     }
                 }
-            },
+            ],
             where: {
                 recruteurId
             }
@@ -110,6 +146,7 @@ exports.recuperersRecruteur = async(req, res) => {
     }
 
 }
+
 exports.enregistrer = async (req, res) => {
 
     let offreDonnees = req.body;
@@ -169,5 +206,76 @@ exports.supprimer = async (req, res) => {
         return res.status(200).json({msg: `L'offre supprimée avec succès`});
     } catch (erreurs) {
         return res.status(500).json(erreurs.message);
+    }
+}
+
+exports.candidature= async (req, res) => {
+    const id = parseInt(req.utilisateurId);
+    const offreId = parseInt(req.params.id);
+
+try {
+  
+    const utilisateur = await Utilisateur.findByPk(id);
+    
+   
+    const offre = await Offre.findByPk(offreId);
+
+  
+    if (utilisateur && offre) {
+
+       
+        await offre.addCandidat(utilisateur);
+
+        return res.status(200).json({
+            data: offre,
+            msg: "Candidature ajoutée avec succès"
+        });
+    }
+
+    res.status(400).json({
+        msg: "Cette offre n'existe pas ou plus"
+    });
+    
+} catch (error) {
+  
+    return res.status(500).json({ msg: 'Erreur interne du serveur' });
+}
+}
+
+exports.supprimerCandidature= async (req, res) => {
+    const id = parseInt(req.utilisateurId);
+    const offreId = parseInt(req.params.id);
+
+    try {
+    
+        const utilisateur = await Utilisateur.findByPk(id);
+        
+    
+        const offre = await Offre.findByPk(offreId, {
+            include: {
+                model: Utilisateur,
+                as: 'candidat'
+            }
+        });
+
+    
+        if (utilisateur && offre) {
+
+        
+            await offre.removeCandidat(utilisateur);
+
+            return res.status(200).json({
+                data: offre,
+                msg: "Candidature supprimée avec succès"
+            });
+        }
+
+        return res.status(400).json({
+            msg: "Cette offre n'existe pas ou plus"
+        });
+        
+    } catch (error) {
+    
+        return res.status(500).json({ msg: 'Erreur interne du serveur' });
     }
 }

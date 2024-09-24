@@ -1,7 +1,7 @@
 const bcrypt = require('bcrypt');
 const sel = require('../core/shared/sel');
 const jwt = require('../core/shared/token');
-const { Utilisateur, Profile, Role, Entreprise } = require('../models');
+const { Utilisateur, Profile, Role, Entreprise, Offre } = require('../models');
 
 exports.enregistrer = async (req, res) => {
 
@@ -70,6 +70,10 @@ exports.recuperer = async (req, res) => {
                     model: Entreprise,
                     as: 'entreprise',
                     attributes: {exclude: ['updatedAt']}
+                },
+                {
+                    model: Offre,
+                    as: 'candidature'
                 }
             ]
         })).toJSON();
@@ -79,7 +83,7 @@ exports.recuperer = async (req, res) => {
 
         return res.status(200).json(utilisateur);
     } catch (erreurs) {
-        return res.status(500).json(`Le serveur n'a pas puis répondre`)
+        return res.status(500).json({msg: `Le serveur n'a pas puis répondre`})
     }
 }
 
@@ -90,24 +94,27 @@ exports.tousLesUtilisateurs = async (req, res) => {
             attributes: {exclude: ['motDePasse', 'updatedAt']},
             include: [
                 {
-                model: Profile,
-                as: 'profile',
-                attributes: {
-                    exclude: ['updatedAt']
+                    model: Profile,
+                    as: 'profile',
+                    attributes: {
+                        exclude: ['updatedAt']
+                    }
+                },{
+                    model: Role,
+                    as: 'role',
+                    attributes: {exclude: ['createdAt', 'updatedAt']}
+                },{
+                    model: Entreprise,
+                    as: 'entreprise' 
                 }
-            },{
-                model: Role,
-                as: 'role',
-                attributes: {exclude: ['createdAt', 'updatedAt']}
-            }
         ]
         });
 
-        !utilisateurs && res.status(401).json('Aucun utilisateur trouvé')
+        !utilisateurs && res.status(401).json({msg: 'Aucun utilisateur trouvé'})
 
         return res.status(200).json(utilisateurs);
     } catch (erreurs) {
-        return res.status(500).json(`Le serveur n'a pas puis répondre`)
+        return res.status(500).json({msg: `Erreur interne du serveur`})
     }
 }
 
