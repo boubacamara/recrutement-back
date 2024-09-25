@@ -10,5 +10,6 @@ router.get('/utilisateur', authRequise, utilisateurCTR.recuperer);
 router.get('/utilisateurs', authRequise, utilisateurCTR.tousLesUtilisateurs);
 router.put('/email/modifie-:jeton', authRequise, utilisateurVLD.emailModifier, utilisateurCTR.emailModifier);
 router.delete('/utilisateur/supprimer-:jeton', authRequise, utilisateurCTR.supprimer);
+router.delete('/utilisateur/deconnexion', authRequise, utilisateurCTR.deconnexion);
 
 module.exports = router;

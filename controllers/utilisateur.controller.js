@@ -149,7 +149,7 @@ exports.supprimer = async (req, res) => {
 
         utilisateur = await utilisateur.destroy({force: true});
 
-        return res.status(201).json(`${utilisateur.pseudo} votre compte a été supprimer avec succès`);
+        return res.status(201).json({msg: `Le compte a été supprimer avec succès`});
     } catch (erreurs) {
         return res.json(erreurs)
     }
@@ -171,4 +171,22 @@ async function creationCompte(email, motDePasse, monJeton, roleId, res) {
     let token = jwt.creation(candidat.id);
 
     return token && res.status(201).json({token})
+}
+
+exports.deconnexion = (req, res) => {
+    authRequise: (req, res, next) => {
+
+        let autorization = req.headers.Authorization || req.headers.authorization;
+        if(!autorization) return res.status(401).json({msg: 'Demande non autorisée'});
+    
+        let token = autorization?.split(' ')[1];
+        if(token === 'null') return res.status(401).json({msg: 'Demande non autorisée'});
+       
+        let utilisateur = jwt.compare(token);
+        if(!utilisateur) return res.status(401).json({msg: 'Demande non autorisée'});
+
+        jwt.destroy(token);
+
+        res.status(203).json({msg: 'Compte déconnecté'});
+    }
 }
