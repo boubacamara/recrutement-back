@@ -30,7 +30,7 @@ module.exports = {
 
     const candidat = {
       motDePasse,
-      email: 'recruteur@dado.sn',
+      email: 'candidat@dado.sn',
       monJeton: salt.generer(25),
       roleId: 3,
       createdAt: '2024-03-23 00:23',
