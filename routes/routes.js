@@ -6,6 +6,7 @@ const entrepriseRTR = require('./entreprise');
 const offreRTR = require('./offre');
 const categorieRTR = require('./categorie');
 const roleRTR = require('./role');
+const mediaRTR = require('./media');
 
 route.get('', (req, res) => res.status(200).send('Hello world'));
 
@@ -15,5 +16,7 @@ route.use('/api/entreprise', entrepriseRTR);
 route.use('/api/offre', offreRTR);
 route.use('/api/categorie', categorieRTR);
 route.use('/api/role', roleRTR);
+
+route.use('/api', mediaRTR);
 
 module.exports = route;

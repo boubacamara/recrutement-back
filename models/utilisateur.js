@@ -83,6 +83,8 @@ module.exports = (sequelize, DataTypes) => {
         onUpdate: 'CASCADE',
         as: 'entreprise'
       });
+
+      Utilisateur.hasMany(models.Media, {foreignKey: 'parentId', as: 'media'});
     }
   }
 
@@ -109,7 +111,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, {
     sequelize,
-    modelName: 'Utilisateur',
+    modelName: 'Utilisateur'
   });
   return Utilisateur;
 };

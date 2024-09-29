@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         as: 'candidat'
       })
       models.Offre.belongsTo(models.Categorie, {foreignKey: 'categorieId', as: 'categorie'});
+      Offre.hasOne(models.Media, {foreignKey: 'parentId', as: 'media'});
     }
   }
   Offre.init({

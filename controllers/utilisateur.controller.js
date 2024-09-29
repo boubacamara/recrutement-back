@@ -1,7 +1,8 @@
 const bcrypt = require('bcrypt');
 const sel = require('../core/shared/sel');
 const jwt = require('../core/shared/token');
-const { Utilisateur, Profile, Role, Entreprise, Offre } = require('../models');
+const { Utilisateur, Profile, Role, Entreprise, Offre, Media } = require('../models');
+const { Op } = require('sequelize');
 
 exports.enregistrer = async (req, res) => {
 
@@ -74,9 +75,13 @@ exports.recuperer = async (req, res) => {
                 {
                     model: Offre,
                     as: 'candidature'
+                },
+                {
+                    model: Media,
+                    as: 'media'
                 }
             ]
-        })).toJSON();
+        }))?.toJSON();
 
 
         !utilisateur && res.status(401).json('Aucun utilisateur trouvé')

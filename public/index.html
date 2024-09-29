@@ -1,0 +1,62 @@
+<style>
+    *{
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #E0E0E0;
+        width: 100vw;
+        height: 100vh;
+    }
+
+    .container {
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 85%;
+        height: 100vh;
+        background-color: #cdd7dc;
+    }
+
+    form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 4px;
+        width: 20%;
+        height: 200px;
+        border: 3px solid;
+        border-style: dashed;
+    }
+
+    input {
+        border: 2px solid #68689d;
+        margin-bottom: 1rem;
+    }
+
+    button {
+        width: 200px;
+        height: 50px;
+        background-color: indigo;
+        color: white;
+        font-size: 16px;
+        border-radius: 8px;
+    }
+
+</style>
+
+
+
+<div class="container">
+    <form action="/api/utilisateur/charger/avatar" method="post" enctype="multipart/form-data">
+        <div class="input-field">
+            <input type="file" name="file"><br>
+            <button type="submit">Envoyer</button>
+        </div>
+    </form>
+</div>
