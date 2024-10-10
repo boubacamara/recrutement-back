@@ -1,4 +1,6 @@
 PORT = 8000
+WEBSITE_URL = http://localhost
+PATH_FILE  =  public/media/
 
 JWT_SECRET = G2gmKWczR1A2KpAoFexueP16u
 

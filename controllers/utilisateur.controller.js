@@ -131,7 +131,7 @@ exports.emailModifier = async (req, res) => {
         
         email = await Utilisateur.modifierEmail(email, monJeton);
 
-        return res.status(201).json(`Émail modifié avec succès ${email}`);
+        return res.status(201).json({msg: `Émail modifié avec succès ${email}`});
     } catch (erreurs) {
         return res.status(400).json({msg: erreurs.message});
     }
@@ -175,7 +175,10 @@ async function creationCompte(email, motDePasse, monJeton, roleId, res) {
 
     let token = jwt.creation(candidat.id);
 
-    return token && res.status(201).json({token})
+    return token && res.status(201).json({
+        token,
+        msg: "Votre a été crée avec succès"
+    })
 }
 
 exports.deconnexion = (req, res) => {
