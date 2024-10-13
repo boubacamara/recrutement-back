@@ -8,7 +8,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
 
     let saltGen = await bcrypt.genSalt(12);
-    const motDePasse = await bcrypt.hash('Dado1', saltGen);
+    const motDePasse = await bcrypt.hash('@Dado1', saltGen);
 
     const admin = {
       motDePasse,

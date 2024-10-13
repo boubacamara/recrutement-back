@@ -23,7 +23,9 @@ module.exports = {
       },
       parentId: {
         type: Sequelize.INTEGER,
-        allowNull: false
+        allowNull: false,
+        onDelete: 'CASCADE',
+        onuUpdate: 'CASCADE',
       },
       createdAt: {
         allowNull: false,

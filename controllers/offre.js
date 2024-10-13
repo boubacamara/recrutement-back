@@ -1,4 +1,4 @@
-const { Offre, Utilisateur, Profile, Entreprise } = require('../models');
+const { Offre, Utilisateur, Profile, Entreprise, Media } = require('../models');
 
 exports.recuperer = async(req, res) => {
 
@@ -17,27 +17,46 @@ exports.recuperer = async(req, res) => {
                     attributes: {
                         exclude: ['motDePasse', 'createdAt', 'updatedAt', 'monJeton']
                     },
-                    include: {
-                        model: Profile,
-                        as: 'profile',
-                        attributes: {
-                            exclude: ['dateDeNaissance', 'utilisateurId', 'ville', 'createdAt', 'updatedAt']
+                    include: [
+                        {
+                            model: Profile,
+                            as: 'profile',
+                            attributes: {
+                                exclude: ['dateDeNaissance', 'utilisateurId', 'ville', 'createdAt', 'updatedAt']
+                            }
+                        }, 
+                        {
+                            model: Entreprise,
+                            as: 'entreprise',
+                            attributes: {
+                                exclude: ['roleId', 'motDePasse', 'createdAt', 'updatedAt', 'UtilisateurOffres']
+                            },
+                            include: [
+                                {
+                                    model: Media,
+                                    as: 'media',
+                                    attributes: {
+                                        exclude: ['roleId', 'motDePasse', 'createdAt', 'updatedAt', 'UtilisateurOffres']
+                                    },
+                                },
+                            ]
+                        },
+                        {
+                            model: Offre,
+                            as: 'offre',
+                            where: {publier: true}
                         }
-                    }
+                    ]
                 },
                 {
                     model: Utilisateur,
                     as: 'candidat',
-                    attributes: {
-                        exclude: ['roleId', 'motDePasse', 'createdAt', 'updatedAt', 'UtilisateurOffres']
-                    },
-                    include: {
-                        model: Profile,
-                        as: 'profile',
-                        attributes: {
-                            exclude: ['dateDeNaissance', 'utilisateurId', 'ville', 'createdAt', 'updatedAt']
+                    include: [
+                        {
+                            model: Profile,
+                            as: 'profile'
                         }
-                    }
+                    ]
                 }
             ]
             

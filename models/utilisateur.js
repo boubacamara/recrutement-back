@@ -84,7 +84,9 @@ module.exports = (sequelize, DataTypes) => {
         as: 'entreprise'
       });
 
-      Utilisateur.hasMany(models.Media, {foreignKey: 'parentId', as: 'media'});
+      Utilisateur.hasMany(models.Media, {foreignKey: 'parentId', as: 'media',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',});
     }
   }
 

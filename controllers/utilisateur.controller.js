@@ -70,7 +70,13 @@ exports.recuperer = async (req, res) => {
                 {
                     model: Entreprise,
                     as: 'entreprise',
-                    attributes: {exclude: ['updatedAt']}
+                    attributes: {exclude: ['updatedAt']},
+                    include: [
+                        {
+                            model: Media,
+                            as: "media"
+                        }
+                    ]
                 },
                 {
                     model: Offre,

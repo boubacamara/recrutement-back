@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       Media.belongsTo(models.Utilisateur, {foreignKey: 'parentId', as: 'utilisateur'});
-      Media.belongsTo(models.Offre, {foreignKey: 'parentId', as: 'offre'});
+      Media.belongsTo(models.Entreprise, {foreignKey: 'parentId', as: 'entreprise'});
     }
   }
   Media.init({

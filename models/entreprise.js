@@ -30,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: 'recruteurId',
         as: 'recruteur'
       })
+
+      Entreprise.hasOne(models.Media, {foreignKey: 'parentId', as: 'media',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',})
     }
   }
 
